@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static ru.netology.data.DataGenerator.unregisteredCardNumber;
 import static ru.netology.data.DataGenerator.*;
-import static ru.netology.data.ErrorNotifications.unregisteredCardNumber;
 import static ru.netology.data.ErrorNotifications.*;
 
 public class CreditTests {
@@ -37,17 +36,16 @@ public class CreditTests {
         open(site);
     }
 
-
     @Test
     @Label("4. Покупка с оплатой в кредит, картой со статусом APPROVED:")
     public void shouldBuyByCredit_Valid() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
                 validYear(), validOwner(), validCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
         assertEquals("APPROVED", afterTransact.getStatus());
     }
@@ -56,12 +54,12 @@ public class CreditTests {
     @Label("5. Заполнение данных владельца через тире в кредит:")
     public void shouldBuyByCredit_IfOwnerThroughDash() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
                 validYear(), dashedOwner(), validCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -69,12 +67,12 @@ public class CreditTests {
     @Label("6. Заполнение данных владельца через пробел:")
     public void shouldBuyByCredit_IfOwnerThroughSpace() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
                 validYear(), validOwner(), validCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -135,12 +133,12 @@ public class CreditTests {
     @Label("49. Покупка с кодом карты с длинной больше трёх символов по кредиту:")
     public void shouldNotBuyByCredit_IfCVVMore3() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
                 validYear(), validOwner(), fourDigitCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -158,12 +156,12 @@ public class CreditTests {
     @Label("51. Покупка с отрицательным кодом карты по кредиту:")
     public void shouldNotBuyByCredit_IfCVVNegative() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
                 validYear(), validOwner(), negativeDigits());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -281,12 +279,12 @@ public class CreditTests {
     @Label("63. Покупка заполненным отрицательным годом по кредиту:")
     public void shouldNotBuyByCredit_IfNegativeYear() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
                 negativeYear(), validOwner(), validCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -334,12 +332,12 @@ public class CreditTests {
     @Label("68. Покупка заполненным отрицательным месяцем по кредиту:")
     public void shouldNotBuyByCredit_IfNegativeDigitsMonth() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), negativeDigits(),
                 validYear(), validOwner(), validCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -418,12 +416,12 @@ public class CreditTests {
     @Label("76. Покупка с длинной больше 16 символов номера карты по кредиту:")
     public void shouldNotBuyByCredit_IfCardNumberMore16() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumberPlus1(), validMonth(),
                 validYear(), validOwner(), validCVV());
         creditPage.checkSuccess();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
     }
 
@@ -442,9 +440,13 @@ public class CreditTests {
     public void shouldNotBuyByCredit_IfCardNumberUnregistered() {
         MainPage mainPage = new MainPage();
         var creditPage = mainPage.buyByCredit();
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         creditPage.fillCardForms(unregisteredCardNumber(), validMonth(),
                 validYear(), validOwner(), validCVV());
-        creditPage.checkCardNumberText(unregisteredCardNumber);
+        creditPage.checkFail();
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
+        assertNotEquals(beforeTransact.getId(), afterTransact.getId());
+        assertEquals("DECLINED", afterTransact.getStatus());
     }
 
     @Test
@@ -461,12 +463,12 @@ public class CreditTests {
     @Label("80. Покупка со статусом DECLINED номером карты по кредиту:")
     public void shouldNotBuyByCredit_IfDeclined() {
         MainPage mainPage = new MainPage();
-        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(declinedCardNumber(), validMonth(),
                 validYear(), validOwner(), validCVV());
         creditPage.checkFail();
-        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
         assertEquals("DECLINED", afterTransact.getStatus());
     }

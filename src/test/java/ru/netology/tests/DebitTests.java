@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static ru.netology.data.DataGenerator.unregisteredCardNumber;
 import static ru.netology.data.DataGenerator.*;
-import static ru.netology.data.ErrorNotifications.unregisteredCardNumber;
 import static ru.netology.data.ErrorNotifications.*;
 
 public class DebitTests {
@@ -35,7 +34,6 @@ public class DebitTests {
     public void openSite() {
         open(site);
     }
-
 
     @Test
     @Label("1. Покупка с оплатой по дебетовой карте со статусом APPROVED:")
@@ -439,10 +437,14 @@ public class DebitTests {
     @Label("41. Покупка с незарегистрированным номером карты по дебетовой карте:")
     public void shouldNotBuyByDebit_IfCardNumberUnregistered() {
         MainPage mainPage = new MainPage();
+        var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(unregisteredCardNumber(), validMonth(),
                 validYear(), validOwner(), validCVV());
-        debitPage.checkCardNumberText(unregisteredCardNumber);
+        debitPage.checkFail();
+        var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
+        assertNotEquals(beforeTransact.getId(), afterTransact.getId());
+        assertEquals("DECLINED", afterTransact.getStatus());
     }
 
     @Test
