@@ -13,7 +13,6 @@ import ru.netology.pages.MainPage;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static ru.netology.data.DataGenerator.unregisteredCardNumber;
 import static ru.netology.data.DataGenerator.*;
 import static ru.netology.data.ErrorNotifications.*;
 
