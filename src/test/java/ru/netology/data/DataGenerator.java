@@ -28,17 +28,16 @@ public class DataGenerator {
     }
 
     public static String approvedCardNumberMinus1() {
-        return approvedCardNumber.substring(0, approvedCardNumber.length() - 2);
+        return approvedCardNumber.substring(0, approvedCardNumber.length() - 1);
     }
 
     public static String validYear() {
-        return LocalDate.now().plusYears(2).
+        return LocalDate.now().plusYears(1).
                 format(DateTimeFormatter.ofPattern("yy"));
     }
 
     public static String negativeYear() {
-        return "-" + LocalDate.now().plusYears(2).
-                format(DateTimeFormatter.ofPattern("yy"));
+        return "-" + validYear();
     }
 
     public static String expiredYear() {
@@ -57,6 +56,10 @@ public class DataGenerator {
 
     public static String invalidMonth() {
         return "13";
+    }
+
+    public static String negativeMonth() {
+        return "-" + validMonth();
     }
 
     public static String dashedOwner() {
@@ -84,6 +87,14 @@ public class DataGenerator {
         return "000";
     }
 
+    public static String negativeCVV() {
+        return "-" + validCVV();
+    }
+
+    public static String twoDigitCVV() {
+        return fake.number().digits(2);
+    }
+
     public static String zeroes() {
         return "00";
     }
@@ -96,16 +107,12 @@ public class DataGenerator {
         return "";
     }
 
-    public static String digits() {
-        return fake.regexify("[0-1]{4,}");
-    }
-
-    public static String negativeDigits() {
-        return "-" + fake.regexify("[0-1]{4,}");
+    public static String digitOwner() {
+        return fake.regexify("[0-9]{4,}");
     }
 
     public static String chars() {
-        return fake.regexify("[a-zA-Z]{5,8}");
+        return fake.regexify("[a-zA-Z]{5,}");
     }
 
     public static String hieroglyphs() {
@@ -113,6 +120,6 @@ public class DataGenerator {
     }
 
     public static String specialSymbols() {
-        return fake.regexify("[!@#$%^&*]{6,}");
+        return "!@#$%^&*";
     }
 }

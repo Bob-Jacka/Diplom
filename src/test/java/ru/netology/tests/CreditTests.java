@@ -147,7 +147,7 @@ public class CreditTests {
         MainPage mainPage = new MainPage();
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
-                validYear(), validOwner(), digits());
+                validYear(), validOwner(), twoDigitCVV());
         creditPage.checkCVVText(incorrectFormat);
     }
 
@@ -158,7 +158,7 @@ public class CreditTests {
         var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
-                validYear(), validOwner(), negativeDigits());
+                validYear(), validOwner(), negativeCVV());
         creditPage.checkSuccess();
         var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
@@ -190,7 +190,7 @@ public class CreditTests {
         MainPage mainPage = new MainPage();
         var creditPage = mainPage.buyByCredit();
         creditPage.fillCardForms(approvedCardNumber(), validMonth(),
-                validYear(), digits(), validCVV());
+                validYear(), digitOwner(), validCVV());
         creditPage.checkOwnerText(emptyForm);
     }
 
@@ -333,7 +333,7 @@ public class CreditTests {
         MainPage mainPage = new MainPage();
         var beforeTransact = ConnectToDB.getLastPaymentData("credit_request_entity");
         var creditPage = mainPage.buyByCredit();
-        creditPage.fillCardForms(approvedCardNumber(), negativeDigits(),
+        creditPage.fillCardForms(approvedCardNumber(), negativeMonth(),
                 validYear(), validOwner(), validCVV());
         creditPage.checkSuccess();
         var afterTransact = ConnectToDB.getLastPaymentData("credit_request_entity");

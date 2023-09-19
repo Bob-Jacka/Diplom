@@ -155,7 +155,7 @@ public class DebitTests {
         MainPage mainPage = new MainPage();
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(approvedCardNumber(), validMonth(),
-                validYear(), validOwner(), digits());
+                validYear(), validOwner(), twoDigitCVV());
         debitPage.checkCVVText(incorrectFormat);
     }
 
@@ -166,7 +166,7 @@ public class DebitTests {
         var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(approvedCardNumber(), validMonth(),
-                validYear(), validOwner(), negativeDigits());
+                validYear(), validOwner(), negativeCVV());
         debitPage.checkSuccess();
         var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
         assertNotEquals(beforeTransact.getId(), afterTransact.getId());
@@ -198,7 +198,7 @@ public class DebitTests {
         MainPage mainPage = new MainPage();
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(approvedCardNumber(), validMonth(),
-                validYear(), digits(), validCVV());
+                validYear(), digitOwner(), validCVV());
         debitPage.checkOwnerText(emptyForm);
     }
 
@@ -331,7 +331,7 @@ public class DebitTests {
         MainPage mainPage = new MainPage();
         var beforeTransact = ConnectToDB.getLastPaymentData("payment_entity");
         var debitPage = mainPage.buyByDebit();
-        debitPage.fillCardForms(approvedCardNumber(), negativeDigits(),
+        debitPage.fillCardForms(approvedCardNumber(), negativeMonth(),
                 validYear(), validOwner(), validCVV());
         debitPage.checkSuccess();
         var afterTransact = ConnectToDB.getLastPaymentData("payment_entity");
