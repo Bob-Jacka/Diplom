@@ -249,7 +249,7 @@ public class DebitTests {
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(approvedCardNumber(), validMonth(),
                 hieroglyphs(), validOwner(), validCVV());
-        debitPage.checkYearText(incorrectFormat);
+        debitPage.checkYearText(emptyForm);
     }
 
     @Test
@@ -322,7 +322,7 @@ public class DebitTests {
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(approvedCardNumber(), hieroglyphs(),
                 validYear(), validOwner(), validCVV());
-        debitPage.checkMonthText(incorrectFormat);
+        debitPage.checkMonthText(emptyForm);
     }
 
     @Test
@@ -386,7 +386,7 @@ public class DebitTests {
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(chars(), validMonth(),
                 validYear(), validOwner(), validCVV());
-        debitPage.checkCardNumberText(incorrectFormat);
+        debitPage.checkCardNumberText(emptyForm);
     }
 
     @Test
@@ -406,7 +406,7 @@ public class DebitTests {
         var debitPage = mainPage.buyByDebit();
         debitPage.fillCardForms(hieroglyphs(), validMonth(),
                 validYear(), validOwner(), validCVV());
-        debitPage.checkCardNumberText(incorrectFormat);
+        debitPage.checkCardNumberText(emptyForm);
     }
 
     @Test
